@@ -20,15 +20,15 @@ const allowedOrigins = [
 
 // Middleware للـ CORS
 app.use(cors({
-  origin: function (origin, callback) {
-    // لو الطلب جاي من Origin موجود في القائمة أو بدون Origin (زي طلبات Postman)
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('CORS not allowed for this origin'));
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true); // طلبات Postman أو سيرفر لسيرفر
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
     }
+    return callback(new Error('Not allowed by CORS'));
   },
-  credentials: true // لو بتبعت Cookies أو Authorization headers
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true
 }));
 
 // Middleware لمعالجة طلبات OPTIONS (preflight)
