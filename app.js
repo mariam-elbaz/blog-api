@@ -12,10 +12,23 @@ dotenv.config()
 
 const app = express()
 
-// Middlewares
+// جلب قيمة الـ origin الحالي تلقائياً
+const allowedOrigins = [
+  'http://localhost:5173', // أثناء التطوير
+  'https://blog-n670064nl-mariam-elbazs-projects-e3dc46fd.vercel.app' // بعد النشر على Vercel
+];
+
 app.use(cors({
-  origin: 'http://localhost:5173', // اسم الدومين اللي عايزة تسمحي له يتصل
-  credentials: true // لو بتشتغلي بجلسات أو Cookies
+  origin: function (origin, callback) {
+    // لو الـ origin مش موجود (زي Postman) أو موجود في القائمة المسموح بها
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true // لو عندك Cookies أو JWT
 }));
 
 app.use(express.json());
