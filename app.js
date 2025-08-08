@@ -18,19 +18,24 @@ const allowedOrigins = [
   'https://blog-n670064nl-mariam-elbazs-projects-e3dc46fd.vercel.app' // بعد النشر على Vercel
 ];
 
+// Middleware للـ CORS
 app.use(cors({
   origin: function (origin, callback) {
-    // لو الـ origin مش موجود (زي Postman) أو موجود في القائمة المسموح بها
+    // لو الطلب جاي من Origin موجود في القائمة أو بدون Origin (زي طلبات Postman)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(new Error('CORS not allowed for this origin'));
     }
   },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true // لو عندك Cookies أو JWT
+  credentials: true // لو بتبعت Cookies أو Authorization headers
 }));
 
+// Middleware لمعالجة طلبات OPTIONS (preflight)
+app.options('*', cors({
+  origin: allowedOrigins,
+  credentials: true
+}));
 app.use(express.json());
 
 // Routes

@@ -13,13 +13,14 @@ const router = express.Router()
 
 // Public routes
 router.get('/', getAll)
+router.get('/me/posts', authMiddleware, getMyPosts)
 router.get('/:id', getOne)
 
 // Protected routes
 router.post('/', authMiddleware, create)
 router.put('/:id', authMiddleware, update)
 router.delete('/:id', authMiddleware, remove)
-router.get('/me/posts', authMiddleware, getMyPosts)
+// router.get('/me/posts', authMiddleware, getMyPosts)
 // router.get('/my-posts', authMiddleware, getMyPosts)
 
 export default router
