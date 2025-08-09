@@ -13,30 +13,31 @@ dotenv.config()
 const app = express()
 
 // جلب قيمة الـ origin الحالي تلقائياً
-const allowedOrigins = [
-  'http://localhost:5173', // أثناء التطوير
-  'https://blog-n670064nl-mariam-elbazs-projects-e3dc46fd.vercel.app' // بعد النشر على Vercel
-];
+// const allowedOrigins = [
+//   'http://localhost:5173', // أثناء التطوير
+//   'https://blog-n670064nl-mariam-elbazs-projects-e3dc46fd.vercel.app' // بعد النشر على Vercel
+// ];
 
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin) return callback(null, true); // السماح بطلبات Postman أو سيرفر لسيرفر
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-    return callback(new Error('Not allowed by CORS'));
-  },
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true,
-  preflightContinue: false // خلي CORS يتعامل مع OPTIONS تلقائي
-}));
+// app.use(cors({
+//   origin: (origin, callback) => {
+//     if (!origin) return callback(null, true); // السماح بطلبات Postman أو سيرفر لسيرفر
+//     if (allowedOrigins.includes(origin)) {
+//       return callback(null, true);
+//     }
+//     return callback(new Error('Not allowed by CORS'));
+//   },
+//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//   credentials: true,
+//   preflightContinue: false // خلي CORS يتعامل مع OPTIONS تلقائي
+// }));
 
-// معالجة أي طلب OPTIONS لأي مسار (Express 5 compatible)
-app.options(/.*/, cors({
-  origin: allowedOrigins,
-  credentials: true
-}));
+// // معالجة أي طلب OPTIONS لأي مسار (Express 5 compatible)
+// app.options(/.*/, cors({
+//   origin: allowedOrigins,
+//   credentials: true
+// }));
 
+app.use(cors())
 
 app.use(express.json());
 
