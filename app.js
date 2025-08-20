@@ -12,6 +12,8 @@ dotenv.config()
 
 const app = express()
 
+app.use(cors({ origin: "*" }));
+
 // جلب قيمة الـ origin الحالي تلقائياً
 // const allowedOrigins = [
 //   'http://localhost:5173', // أثناء التطوير
@@ -46,11 +48,11 @@ const app = express()
 
 
 // 3.
-app.use(cors({
-  origin: "*",
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
+// app.use(cors({
+//   origin: "*",
+//   methods: ["GET", "POST", "PUT", "DELETE"],
+//   allowedHeaders: ["Content-Type", "Authorization"]
+// }));
 
 // 4.
 // app.use(cors())
